@@ -1,0 +1,36 @@
+<!-- @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap'); -->
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.heading {
+  color: rgb(144, 12,63);
+  font-size: 48px;
+  text-align: center;
+  font-family: Roboto, Menlo, Monaco, Times New Roman, sans serif;
+  font-weight: 700;
+  margin-top: 10;
+}
+.start {
+  display: flex;
+  justify-content: space-between;
+}
+#button {
+  display: inline-block;
+  text-align: center;
+  padding: 5px;
+  font-size: 32px;
+  font-family: Roboto, Menlo, Monaco, Times New Roman, sans serif;
+  color: black;
+}
+
+.choice {
+  font-size: 32px;
+  font-family: Roboto, Menlo, Monaco, Times New Roman, sans serif;
+  color: black;
+  text-align: center;
+}
