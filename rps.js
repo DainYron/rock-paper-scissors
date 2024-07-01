@@ -4,6 +4,9 @@ const body = document.querySelector("body");
 
 var playerSelection;
 var computerSelection;
+var score = 0;
+var lives = 5;
+var streak = 0;
 
 function createButtons() {
   const rock = document.createElement("button");
@@ -26,27 +29,6 @@ function createButtons() {
   start.appendChild(paper);
   start.appendChild(scissors);
 }
-
-/*function playerSelection() {
-  const buttons = document.querySelectorAll("#myBtn");
-  buttons.forEach((button) => {
-    button.addEventListener("click", () => {
-      const userChoice = document.createElement("div");
-      if (button.classList.contains("rock")) {
-        playerSelection = "rock";
-      }
-      else if (button.classList.contains("paper")){
-        playerSelection = "paper";
-      }
-      else {
-        playerSelection = "scissors";
-      }
-      //body.appendChild(userChoice);
-      return playerSelection;
-    });
-    return playerSelection;
-  });
-}*/
   
 function playGame() {
   const buttons = document.querySelectorAll("#myBtn");
@@ -70,8 +52,8 @@ function playGame() {
       const rep = document.createElement("div");
       rep.textContent = "Score: " + round;
       body.appendChild(rep);
-      //console.log(checkScore(playerSelection, computerSelection()));
       result(round);
+      score(round);
     });
     
   });
@@ -80,9 +62,9 @@ function playGame() {
 function computerSelection() {
   const choices = ["rock", "paper", "scissors"];
   computerSelection = choices[Math.floor(Math.random() * 3)];
-  const computerChoice = document.createElement("p");
+  /*const computerChoice = document.createElement("p");
   computerChoice.textContent = "Computer Choice: " + computerSelection;
-  body.appendChild(computerChoice);
+  body.appendChild(computerChoice);*/
   return computerSelection;
 }
 
@@ -123,11 +105,36 @@ function result(check) {
   }
 }
 
+function score(round){
+  if (round == 1) {
+    score++;
+    streak++;
+  }
+  if (round == -1){
+    lives--;
+    streak = 0;
+  }
+  if (round == 0){
+    streak = 0;
+  }
+  updateText();
+}
+function updateText() {
+  scoring.textContent = "Score: " + score + " Lives: " + lives + " Streak: " + streak;
+}
+
 startButton.addEventListener("click", () => {
   start.removeChild(startButton);
   
+  const scoring = document.createElement("div");
+  scoring.textContent = "Score: " + score + " Lives: " + lives + " Streak: " + streak;  
+  body.appendChild(scoring);
+  
   createButtons();
-  playGame();
+  //while (lives > 0) {
+    playGame();
+  //}
+  
   
 
   /*function myFunction() {
