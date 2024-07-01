@@ -1,4 +1,4 @@
-<!-- @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap'); -->
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 body {
   display: flex;
@@ -28,7 +28,7 @@ body {
   color: black;
 }
 
-.choice {
+.choices {
   font-size: 32px;
   font-family: Roboto, Menlo, Monaco, Times New Roman, sans serif;
   color: black;

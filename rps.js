@@ -1,8 +1,9 @@
 const start = document.querySelector(".start");
 const startButton = document.querySelector("#button");
+const body = document.querySelector("body");
 
-let playerSelection;
-let computerSelection;
+var playerSelection;
+var computerSelection;
 
 function createButtons() {
   const rock = document.createElement("button");
@@ -26,51 +27,108 @@ function createButtons() {
   start.appendChild(scissors);
 }
 
-function playerSelection() {
+/*function playerSelection() {
   const buttons = document.querySelectorAll("#myBtn");
   buttons.forEach((button) => {
     button.addEventListener("click", () => {
-      const userChoice = document.createElement("p");
+      const userChoice = document.createElement("div");
       if (button.classList.contains("rock")) {
-        //userChoice.textContent = "Your Choice: Rock";
-        //userChoice.setAttribute("text-align", "center");
         playerSelection = "rock";
       }
       else if (button.classList.contains("paper")){
-        //userChoice.textContent = "Your Choice: Paper";
-        //userChoice.setAttribute("text-align", "center");
         playerSelection = "paper";
       }
       else {
-        //userChoice.textContent = "Your Choice: Scissors";
-        //userChoice.setAttribute("text-align", "center");
         playerSelection = "scissors";
       }
-      start.appendChild(userChoice);
+      //body.appendChild(userChoice);
+      return playerSelection;
     });
+    return playerSelection;
+  });
+}*/
+  
+function playGame() {
+  const buttons = document.querySelectorAll("#myBtn");
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const userChoice = document.createElement("div");
+      if (button.classList.contains("rock")) {
+          playerSelection = "rock";
+      }
+      else if (button.classList.contains("paper")){
+          playerSelection = "paper";
+      }
+      else {
+          playerSelection = "scissors";
+      }
+      const res = document.createElement("div");
+      computerSelection = computerSelection();
+      res.textContent = "You chose: " + playerSelection + " " + "Computer chose: " + computerSelection;
+      body.appendChild(res);
+      var round = checkScore(playerSelection, computerSelection);
+      const rep = document.createElement("div");
+      rep.textContent = "Score: " + round;
+      body.appendChild(rep);
+      //console.log(checkScore(playerSelection, computerSelection()));
+      result(round);
+    });
+    
   });
 }
 
 function computerSelection() {
-  const choices = ["rock", "paper", "scissors", "rock"];
-  let computerSelection = choices[Math.round(Math.random() * 4)];
+  const choices = ["rock", "paper", "scissors"];
+  computerSelection = choices[Math.floor(Math.random() * 3)];
   const computerChoice = document.createElement("p");
   computerChoice.textContent = "Computer Choice: " + computerSelection;
-  
-  start.appendChild(computerChoice)
+  body.appendChild(computerChoice);
+  return computerSelection;
 }
 
+var check;
 
+function checkScore(playerSelection, computerSelection) {
+  check = null;
+  if (playerSelection == "rock" && computerSelection == "paper") check = -1;
+  if (playerSelection == "rock" && computerSelection == "scissors") check = 1;
+  if (playerSelection == "rock" && computerSelection == "rock") check = 0;
+  
+  if (playerSelection == "paper" && computerSelection == "scissors") check = -1;
+  if (playerSelection == "paper" && computerSelection == "rock") check = 1;
+  if (playerSelection == "paper" && computerSelection == "paper") check = 0;
+  
+  if (playerSelection == "scissors" && computerSelection == "rock") check = -1;
+  if (playerSelection == "scissors" && computerSelection == "paper") check = 1;
+  if (playerSelection == "scissors" && computerSelection == "scissors") check = 0;
+  
+  return check;
+}
 
-function playGame() {
+function result(check) {
+  if (check == 1) {
+    const win = document.createElement("div");
+    win.textContent = "You Win! " + "You chose: " + playerSelection + ", but computer chose: " + computerSelection;
+    body.appendChild(win);
+  }
+  else if (check == -1) {
+    const lose = document.createElement("div");
+    lose.textContent = "You Lost! " + "You chose: " + playerSelection + ", but computer chose: " + computerSelection;
+    body.appendChild(lose);
+  }
+  else if (check == 0) {
+    const tie = document.createElement("div");
+    tie.textContent = "You Tied! " + "You chose: " + playerSelection + ", and computer chose: " + computerSelection;
+    body.appendChild(tie);
+  }
 }
 
 startButton.addEventListener("click", () => {
   start.removeChild(startButton);
   
   createButtons();
-  playerSelection();
-  computerSelection();
+  playGame();
+  
 
   /*function myFunction() {
     var x = document.getElementById("myBtn").value;
