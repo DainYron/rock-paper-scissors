@@ -2,11 +2,15 @@ const start = document.querySelector(".start");
 const startButton = document.querySelector("#button");
 const body = document.querySelector("body");
 
+
 var playerSelection;
 var computerSelection;
 var score = 0;
 var lives = 5;
 var streak = 0;
+
+const scoring = document.createElement("div");
+scoring.innerText = `Score: ${score} Lives: ${lives} Streak: ${streak}`;
 
 function createButtons() {
   const rock = document.createElement("button");
@@ -45,7 +49,7 @@ function playGame() {
           playerSelection = "scissors";
       }
       const res = document.createElement("div");
-      computerSelection = computerSelection();
+      computerSelection = computerSelect();
       res.textContent = "You chose: " + playerSelection + " " + "Computer chose: " + computerSelection;
       body.appendChild(res);
       var round = checkScore(playerSelection, computerSelection);
@@ -53,13 +57,14 @@ function playGame() {
       rep.textContent = "Score: " + round;
       body.appendChild(rep);
       result(round);
-      score(round);
+      updateScore(round);
+      updateText();
     });
     
   });
 }
 
-function computerSelection() {
+function computerSelect() {
   const choices = ["rock", "paper", "scissors"];
   computerSelection = choices[Math.floor(Math.random() * 3)];
   /*const computerChoice = document.createElement("p");
@@ -105,7 +110,7 @@ function result(check) {
   }
 }
 
-function score(round){
+function updateScore(round){
   if (round == 1) {
     score++;
     streak++;
@@ -117,21 +122,21 @@ function score(round){
   if (round == 0){
     streak = 0;
   }
-  updateText();
 }
 function updateText() {
-  scoring.textContent = "Score: " + score + " Lives: " + lives + " Streak: " + streak;
+  scoring.innerText = `Score: ${score} Lives: ${lives} Streak: ${streak}`;
 }
 
 startButton.addEventListener("click", () => {
   start.removeChild(startButton);
   
-  const scoring = document.createElement("div");
+/*  const scoring = document.createElement("div");
   scoring.textContent = "Score: " + score + " Lives: " + lives + " Streak: " + streak;  
+  body.appendChild(scoring);*/
   body.appendChild(scoring);
-  
   createButtons();
-  //while (lives > 0) {
+  console.log(scoring);
+  //while (score < 5) {
     playGame();
   //}
   
