@@ -33,11 +33,12 @@ function createButtons() {
   start.appendChild(paper);
   start.appendChild(scissors);
 }
-  
+
 function playGame() {
   const buttons = document.querySelectorAll("#myBtn");
   buttons.forEach((button) => {
-    button.addEventListener("click", () => {
+    var count = 1;
+    button.addEventListener("click", function onClick(event) {
       const userChoice = document.createElement("div");
       if (button.classList.contains("rock")) {
           playerSelection = "rock";
@@ -48,19 +49,23 @@ function playGame() {
       else {
           playerSelection = "scissors";
       }
-      const res = document.createElement("div");
-      computerSelection = computerSelect();
-      res.textContent = "You chose: " + playerSelection + " " + "Computer chose: " + computerSelection;
-      body.appendChild(res);
-      var round = checkScore(playerSelection, computerSelection);
-      const rep = document.createElement("div");
-      rep.textContent = "Score: " + round;
-      body.appendChild(rep);
-      result(round);
-      updateScore(round);
-      updateText();
+      //result(round);
+      if (lives > 0){
+        const res = document.createElement("div");
+        computerSelection = computerSelect();
+        res.textContent = "You chose: " + playerSelection + " " + "Computer chose: " + computerSelection;
+        body.appendChild(res);
+        var round = checkScore(playerSelection, computerSelection);
+        const rep = document.createElement("div");
+        rep.textContent = "Score: " + round;
+        body.appendChild(rep);
+        updateScore(round);
+        updateText();
+      }
+      if (lives == 0){
+        button.removeEventListener("click", onClick);
+      }
     });
-    
   });
 }
 
@@ -92,7 +97,7 @@ function checkScore(playerSelection, computerSelection) {
   return check;
 }
 
-function result(check) {
+/*function result(check) {
   if (check == 1) {
     const win = document.createElement("div");
     win.textContent = "You Win! " + "You chose: " + playerSelection + ", but computer chose: " + computerSelection;
@@ -108,7 +113,7 @@ function result(check) {
     tie.textContent = "You Tied! " + "You chose: " + playerSelection + ", and computer chose: " + computerSelection;
     body.appendChild(tie);
   }
-}
+}*/
 
 function updateScore(round){
   if (round == 1) {
