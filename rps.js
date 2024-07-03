@@ -9,6 +9,17 @@ var score = 0;
 var lives = 5;
 var streak = 0;
 
+function playGame() {
+    if (lives <= 0) return;
+
+    const rockButton = document.querySelector(".rock");
+    const paperButton = document.querySelector(".paper");
+    const scissorsButton = document.querySelector(".scissors");
+    rockButton.addEventListener("click", () => onClick("rock"));
+    paperButton.addEventListener("click", () => onClick("paper"));
+    scissorsButton.addEventListener("click", () => onClick("scissors"));
+}
+
 //const scoring = document.createElement("div");
 //scoring.innerText = `Score: ${score} Lives: ${lives} Streak: ${streak}`;
 
@@ -32,19 +43,42 @@ function createButtons() {
   start.appendChild(rock);
   start.appendChild(paper);
   start.appendChild(scissors);
+  playGame();
+  if (lives == 0) {
+    deleteButtons();
+    return;
+  }
 }
 
-function playGame() {
+function onClick(playerSelection) {
+    if (lives <=0 ){
+        deleteButtons();
+        return;
+    }
+    
+    const res = document.createElement("div");
+        computerSelection = computerSelect();
+        res.textContent = "You chose: " + playerSelection + " " + "Computer chose: " + computerSelection;
+        body.appendChild(res);
+        var round = checkScore(playerSelection, computerSelection);
+        //updateColors(button, playerSelection, computerSelection, round);
+        const rep = document.createElement("div");
+        rep.textContent = "Score: " + round;
+        body.appendChild(rep);
+        updateScore(round);
+        updateText();
+}
+
+/*function playGame() {
   const buttons = document.querySelectorAll("#myBtn");
-  var count = 1;
   buttons.forEach((button) => {
     button.addEventListener("click", function onClick(event) {
       //if (lives > 0){
         if (lives == 0){
-            buttons.forEach((button) => {
-                button.removeEventListener("click", onClick);
-                console.log(lives);
-            });
+            for (let elements of buttons) {
+                elements.removeEventListener("click", onClick);
+            }
+            console.log(lives);
             return;
         }
         const userChoice = document.createElement("div");
@@ -73,7 +107,7 @@ function playGame() {
         
     });
   });
-}
+}*/
 
 function computerSelect() {
   const choices = ["rock", "paper", "scissors"];
@@ -165,6 +199,12 @@ function updateColors(button ,playerSelection, computerSelection, round){
     }
 }
 
+function deleteButtons() {
+    while (start.hasChildNodes) {
+        start.removeChild(start.firstChild);
+    }
+}
+
 startButton.addEventListener("click", () => {
   start.removeChild(startButton);
   
@@ -174,10 +214,7 @@ startButton.addEventListener("click", () => {
   //body.appendChild(scoring);
   scoreSheet.innerText = `Score: ${score} Lives: ${lives} Streak: ${streak}`
   createButtons();
-  playGame();
   
-  
-
   /*function myFunction() {
     var x = document.getElementById("myBtn").value;
     document.getElementById("demo").innerHTML = x;
