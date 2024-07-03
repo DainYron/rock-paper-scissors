@@ -34,3 +34,12 @@ body {
   color: black;
   text-align: center;
 }
+.correct {
+    background-color: #00FF00;
+}
+.incorrect {
+    background-color: #FF0000;
+}
+.neither {
+    background-color: #0000FF;
+}

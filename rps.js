@@ -1,7 +1,7 @@
 const start = document.querySelector(".start");
 const startButton = document.querySelector("#button");
 const body = document.querySelector("body");
-
+const scoreSheet = document.querySelector(".scoring");
 
 var playerSelection;
 var computerSelection;
@@ -9,8 +9,8 @@ var score = 0;
 var lives = 5;
 var streak = 0;
 
-const scoring = document.createElement("div");
-scoring.innerText = `Score: ${score} Lives: ${lives} Streak: ${streak}`;
+//const scoring = document.createElement("div");
+//scoring.innerText = `Score: ${score} Lives: ${lives} Streak: ${streak}`;
 
 function createButtons() {
   const rock = document.createElement("button");
@@ -36,35 +36,41 @@ function createButtons() {
 
 function playGame() {
   const buttons = document.querySelectorAll("#myBtn");
+  var count = 1;
   buttons.forEach((button) => {
-    var count = 1;
     button.addEventListener("click", function onClick(event) {
-      const userChoice = document.createElement("div");
-      if (button.classList.contains("rock")) {
-          playerSelection = "rock";
-      }
-      else if (button.classList.contains("paper")){
-          playerSelection = "paper";
-      }
-      else {
-          playerSelection = "scissors";
-      }
-      //result(round);
-      if (lives > 0){
+      //if (lives > 0){
+        if (lives == 0){
+            buttons.forEach((button) => {
+                button.removeEventListener("click", onClick);
+                console.log(lives);
+            });
+            return;
+        }
+        const userChoice = document.createElement("div");
+        if (button.classList.contains("rock")) {
+            playerSelection = "rock";
+        }
+        else if (button.classList.contains("paper")){
+            playerSelection = "paper";
+        }
+        else {
+            playerSelection = "scissors";
+        }
+        //result(round);
         const res = document.createElement("div");
         computerSelection = computerSelect();
         res.textContent = "You chose: " + playerSelection + " " + "Computer chose: " + computerSelection;
         body.appendChild(res);
         var round = checkScore(playerSelection, computerSelection);
+        //updateColors(button, playerSelection, computerSelection, round);
         const rep = document.createElement("div");
         rep.textContent = "Score: " + round;
         body.appendChild(rep);
         updateScore(round);
         updateText();
-      }
-      if (lives == 0){
-        button.removeEventListener("click", onClick);
-      }
+      //}
+        
     });
   });
 }
@@ -129,7 +135,34 @@ function updateScore(round){
   }
 }
 function updateText() {
-  scoring.innerText = `Score: ${score} Lives: ${lives} Streak: ${streak}`;
+  scoreSheet.innerText = `Score: ${score} Lives: ${lives} Streak: ${streak}`;
+}
+
+function updateColors(button ,playerSelection, computerSelection, round){
+    if (round > 0) {
+        if (button.classList.contains(playerSelection)){
+            button.classList.add("correct");
+        }
+        if (button.classList.contains(computerSelection)){
+            button.classList.add("incorrect");
+        }
+    }
+    if (round == 0) {
+        if (button.classList.contains(playerSelection)){
+            button.classList.add("neither");
+        }
+        if (button.classList.contains(computerSelection)){
+            button.classList.add("neither");
+        }
+    }
+    if (round < 0) {
+        if (button.classList.contains(playerSelection)){
+            button.classList.add("incorrect");
+        }
+        if (button.classList.contains(computerSelection)){
+            button.classList.add("correct");
+        }
+    }
 }
 
 startButton.addEventListener("click", () => {
@@ -138,12 +171,10 @@ startButton.addEventListener("click", () => {
 /*  const scoring = document.createElement("div");
   scoring.textContent = "Score: " + score + " Lives: " + lives + " Streak: " + streak;  
   body.appendChild(scoring);*/
-  body.appendChild(scoring);
+  //body.appendChild(scoring);
+  scoreSheet.innerText = `Score: ${score} Lives: ${lives} Streak: ${streak}`
   createButtons();
-  console.log(scoring);
-  //while (score < 5) {
-    playGame();
-  //}
+  playGame();
   
   
 
