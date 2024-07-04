@@ -140,16 +140,9 @@ function deleteButtons() {
     buttons.forEach((button) => {
         start.removeChild(button);
     });
-    /*var elementCount = start.childElementCount;
-    for (let i = 0; i < elementCount; i++) {
-        start.removeChild(start.childNode[0]);
-    }*/
 }
 
 function endGame() {
-    //const restart = document.createElement("p");
-    //restart.classList.add("start");
-    //body.appendChild(restart);
     const playAgain = document.createElement("button");
     playAgain.classList.add("playAgain");
     playAgain.classList.add("choices");
@@ -177,7 +170,7 @@ function gameStart(){
     startButton.addEventListener("click", () => {
         start.removeChild(startButton);
         createButtons();
-    })
+    });
     
 }
 
@@ -186,17 +179,6 @@ startButton.addEventListener("click", () => {
   
   scoreSheet.innerText = `Score: ${score} Lives: ${lives} Streak: ${streak}`
   createButtons();
-  /*if (!start.hasChildNodes){
-    console.log("check");
-    const playAgain = document.createElement("button");
-    playAgain.classList.add("playAgain");
-    playAgain.classList.add("choices");
-    playAgain.innerText = "Play Again";
-    
-    start.appendChild("Play Again");
-    
-    playAgain.addEventListener("click", () => createButtons());
-  }*/
   
 });
 
