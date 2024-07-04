@@ -10,7 +10,6 @@ var lives = 5;
 var streak = 0;
 
 function playGame() {
-    if (lives <= 0) return;
 
     const rockButton = document.querySelector(".rock");
     const paperButton = document.querySelector(".paper");
@@ -18,10 +17,9 @@ function playGame() {
     rockButton.addEventListener("click", () => onClick("rock"));
     paperButton.addEventListener("click", () => onClick("paper"));
     scissorsButton.addEventListener("click", () => onClick("scissors"));
+    
+    if (lives == 0) endGame();
 }
-
-//const scoring = document.createElement("div");
-//scoring.innerText = `Score: ${score} Lives: ${lives} Streak: ${streak}`;
 
 function createButtons() {
   const rock = document.createElement("button");
@@ -44,17 +42,10 @@ function createButtons() {
   start.appendChild(paper);
   start.appendChild(scissors);
   playGame();
-  if (lives == 0) {
-    deleteButtons();
-    return;
-  }
 }
 
 function onClick(playerSelection) {
-    if (lives <=0 ){
-        deleteButtons();
-        return;
-    }
+    
     
     const res = document.createElement("div");
         computerSelection = computerSelect();
@@ -67,54 +58,17 @@ function onClick(playerSelection) {
         body.appendChild(rep);
         updateScore(round);
         updateText();
-}
-
-/*function playGame() {
-  const buttons = document.querySelectorAll("#myBtn");
-  buttons.forEach((button) => {
-    button.addEventListener("click", function onClick(event) {
-      //if (lives > 0){
-        if (lives == 0){
-            for (let elements of buttons) {
-                elements.removeEventListener("click", onClick);
-            }
-            console.log(lives);
+        
+        if (lives <=0 ){
+            deleteButtons();
+            endGame();
             return;
         }
-        const userChoice = document.createElement("div");
-        if (button.classList.contains("rock")) {
-            playerSelection = "rock";
-        }
-        else if (button.classList.contains("paper")){
-            playerSelection = "paper";
-        }
-        else {
-            playerSelection = "scissors";
-        }
-        //result(round);
-        const res = document.createElement("div");
-        computerSelection = computerSelect();
-        res.textContent = "You chose: " + playerSelection + " " + "Computer chose: " + computerSelection;
-        body.appendChild(res);
-        var round = checkScore(playerSelection, computerSelection);
-        //updateColors(button, playerSelection, computerSelection, round);
-        const rep = document.createElement("div");
-        rep.textContent = "Score: " + round;
-        body.appendChild(rep);
-        updateScore(round);
-        updateText();
-      //}
-        
-    });
-  });
-}*/
+}
 
 function computerSelect() {
   const choices = ["rock", "paper", "scissors"];
   computerSelection = choices[Math.floor(Math.random() * 3)];
-  /*const computerChoice = document.createElement("p");
-  computerChoice.textContent = "Computer Choice: " + computerSelection;
-  body.appendChild(computerChoice);*/
   return computerSelection;
 }
 
@@ -136,24 +90,6 @@ function checkScore(playerSelection, computerSelection) {
   
   return check;
 }
-
-/*function result(check) {
-  if (check == 1) {
-    const win = document.createElement("div");
-    win.textContent = "You Win! " + "You chose: " + playerSelection + ", but computer chose: " + computerSelection;
-    body.appendChild(win);
-  }
-  else if (check == -1) {
-    const lose = document.createElement("div");
-    lose.textContent = "You Lost! " + "You chose: " + playerSelection + ", but computer chose: " + computerSelection;
-    body.appendChild(lose);
-  }
-  else if (check == 0) {
-    const tie = document.createElement("div");
-    tie.textContent = "You Tied! " + "You chose: " + playerSelection + ", and computer chose: " + computerSelection;
-    body.appendChild(tie);
-  }
-}*/
 
 function updateScore(round){
   if (round == 1) {
@@ -200,24 +136,66 @@ function updateColors(button ,playerSelection, computerSelection, round){
 }
 
 function deleteButtons() {
-    while (start.hasChildNodes) {
-        start.removeChild(start.firstChild);
-    }
+    const buttons = document.querySelectorAll("#myBtn");
+    buttons.forEach((button) => {
+        start.removeChild(button);
+    });
+    /*var elementCount = start.childElementCount;
+    for (let i = 0; i < elementCount; i++) {
+        start.removeChild(start.childNode[0]);
+    }*/
+}
+
+function endGame() {
+    //const restart = document.createElement("p");
+    //restart.classList.add("start");
+    //body.appendChild(restart);
+    const playAgain = document.createElement("button");
+    playAgain.classList.add("playAgain");
+    playAgain.classList.add("choices");
+    playAgain.innerText = "Play Again";
+    
+    start.appendChild(playAgain);
+    
+    playAgain.addEventListener("click", () => gameStart());
+}
+
+function gameStart(){
+    score = 0;
+    lives = 5;
+    streak = 0;
+    
+    const playAgain = document.querySelector(".playAgain");
+    start.removeChild(playAgain);
+    const startButton = document.createElement("button");
+    startButton.classList.add("choices");
+    startButton.setAttribute("id", "button");
+    startButton.innerText = "Start";
+    
+    start.appendChild(startButton);
+    
+    startButton.addEventListener("click", () => {
+        start.removeChild(startButton);
+        createButtons();
+    })
+    
 }
 
 startButton.addEventListener("click", () => {
   start.removeChild(startButton);
   
-/*  const scoring = document.createElement("div");
-  scoring.textContent = "Score: " + score + " Lives: " + lives + " Streak: " + streak;  
-  body.appendChild(scoring);*/
-  //body.appendChild(scoring);
   scoreSheet.innerText = `Score: ${score} Lives: ${lives} Streak: ${streak}`
   createButtons();
-  
-  /*function myFunction() {
-    var x = document.getElementById("myBtn").value;
-    document.getElementById("demo").innerHTML = x;
+  /*if (!start.hasChildNodes){
+    console.log("check");
+    const playAgain = document.createElement("button");
+    playAgain.classList.add("playAgain");
+    playAgain.classList.add("choices");
+    playAgain.innerText = "Play Again";
+    
+    start.appendChild("Play Again");
+    
+    playAgain.addEventListener("click", () => createButtons());
   }*/
   
 });
